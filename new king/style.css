@@ -1,0 +1,630 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Press+Start+2P&display=swap');
+
+:root {
+    --primary-bg: #e0f7fa; /* Light Blue */
+    --secondary-bg: #ffffff; /* White */
+    --accent-color-1: #4dd0e1; /* Cyan */
+    --accent-color-2: #ffab40; /* Orange */
+    --text-color-dark: #263238; /* Dark Grey */
+    --text-color-light: #eceff1; /* Light Grey */
+    --success-color: #69f0ae; /* Green */
+    --error-color: #ff5252; /* Red */
+    --button-bg: #00bcd4; /* Teal */
+    --button-hover: #00838f; /* Darker Teal */
+    --input-border: #b2ebf2; /* Lighter Teal */
+    --border-radius: 12px;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    /* NEW: Playful Colors */
+    --player1-color: #6a1b9a; /* Deep Purple */
+    --player2-color: #ff6f00; /* Bright Orange */
+    --neutral-text: #424242; /* Grey */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* Allow content to stack and scroll vertically */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Minimum height, but allows to grow */
+    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--accent-color-1) 100%);
+    color: var(--text-color-dark);
+    box-sizing: border-box;
+    /* REMOVED: overflow: hidden; */ /* This was preventing scrolling */
+    position: relative;
+}
+
+/* --- NEW: Background Animation (Optional CSS-only particles) --- */
+/* Simple CSS dots background - you can replace with JS particles.js for more complex effects */
+body::before {
+    content: '';
+    position: fixed; /* Changed to fixed so it doesn't scroll with content */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.5;
+    animation: moveBackground 60s linear infinite;
+    z-index: -1; /* Ensures it stays behind content */
+}
+
+@keyframes moveBackground {
+    from { background-position: 0 0; }
+    to { background-position: 100% 100%; }
+}
+/* --- END NEW Background --- */
+
+.game-container {
+    background-color: var(--secondary-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+    position: relative;
+    /* REMOVED: overflow: hidden; */ /* This was preventing content overflow from container */
+    margin: 20px auto; /* Add vertical margin and auto horizontal for centering */
+    animation: fadeIn 0.8s ease-out;
+    border: 3px solid var(--button-bg);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.game-logo-section {
+    text-align: center;
+    margin-bottom: 20px;
+    animation: logoEntrance 1s ease-out;
+}
+
+.game-logo {
+    max-width: 180px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.game-logo:hover {
+    transform: scale(1.05) rotateZ(2deg);
+}
+
+@keyframes logoEntrance {
+    from { opacity: 0; transform: translateY(-50px) scale(0.5); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.game-title {
+    font-family: 'Press Start 2P', cursive;
+    color: var(--player1-color);
+    margin-bottom: 30px;
+    font-size: 2.2em;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+    position: relative;
+    animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.02); }
+}
+
+/* Section Management */
+.game-section {
+    display: none;
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+.game-section.active {
+    display: block;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.section-title {
+    color: var(--accent-color-2);
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Input Fields & Labels */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--neutral-text);
+}
+
+input[type="text"],
+input[type="number"] {
+    width: calc(100% - 40px);
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    border: 2px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 1.1em;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    border-color: var(--player2-color);
+    box-shadow: 0 0 10px rgba(255, 111, 0, 0.4);
+    transform: scale(1.01);
+}
+
+/* Buttons */
+button {
+    background-color: var(--button-bg);
+    color: var(--text-color-light);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 1.15em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    margin-top: 15px;
+    box-shadow: 0 5px 15px rgba(0, 188, 212, 0.3);
+    letter-spacing: 0.5px;
+}
+
+button:hover {
+    background-color: var(--button-hover);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 8px 20px rgba(0, 188, 212, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 188, 212, 0.2);
+}
+
+button:disabled {
+    background-color: #b0bec5;
+    cursor: not-allowed;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Radio Button Groups */
+.setting-group {
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 25px;
+    border: 1px solid #e0e0e0;
+}
+
+.setting-group h3 {
+    color: var(--player1-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+}
+
+.radio-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+.radio-group label {
+    background-color: var(--accent-color-1);
+    color: var(--text-color-light);
+    padding: 12px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    min-width: 100px;
+}
+
+.radio-group label:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+}
+
+.radio-group input[type="radio"]:checked + label {
+    background-color: var(--player2-color);
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(255, 111, 0, 0.4);
+    border: 2px solid #fff;
+}
+
+/* Game Play Area Specifics */
+.game-header {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed var(--input-border);
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.player-score-card {
+    background-color: #f0f4c3;
+    border-radius: 15px;
+    padding: 15px 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    min-width: 200px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+/* Specific player styling */
+#player1-score-card {
+    background-color: #ede7f6;
+    border-color: var(--player1-color);
+}
+
+#player2-score-card {
+    background-color: #fff3e0;
+    border-color: var(--player2-color);
+}
+
+.player-score-card.active-player-card {
+    transform: scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    border-width: 3px;
+}
+
+.player-info {
+    font-weight: 600;
+    font-size: 1.2em;
+    margin-bottom: 5px;
+    color: var(--neutral-text);
+}
+
+.player-name-style {
+    font-family: 'Press Start 2P', cursive;
+    color: var(--player1-color);
+    font-size: 1.1em;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+#displayPlayer2Name.player-name-style {
+    color: var(--player2-color);
+}
+
+.score-info {
+    font-weight: 700;
+    font-size: 1.3em;
+    color: var(--neutral-text);
+}
+
+.score-value {
+    color: var(--accent-color-2);
+    font-size: 1.1em;
+}
+
+.round-info {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--button-bg);
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.display-area {
+    background-color: #e1f5fe;
+    border: 3px solid var(--accent-color-1);
+    border-radius: var(--border-radius);
+    padding: 35px 25px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.operation-text {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 3em;
+    color: var(--text-color-dark);
+    margin: 0;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.operation-text.animate {
+    animation: popInRotate 0.3s ease-out;
+}
+
+@keyframes popInRotate {
+    from { transform: scale(0.7) rotateZ(-5deg); opacity: 0; }
+    to { transform: scale(1) rotateZ(0deg); opacity: 1; }
+}
+
+.countdown-text {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--error-color);
+    margin-top: 15px;
+    animation: bounce 0.8s infinite alternate;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+.timer-bar-container {
+    width: 95%;
+    height: 12px;
+    background-color: #bbdefb;
+    border-radius: 6px;
+    margin-top: 25px;
+    overflow: hidden;
+    display: none;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.timer-bar {
+    height: 100%;
+    width: 100%;
+    background-color: var(--success-color);
+    border-radius: 6px;
+    transform-origin: left;
+    transition: width linear;
+}
+
+/* Timer bar color change */
+.timer-bar.warning { background-color: var(--accent-color-2); }
+.timer-bar.critical { background-color: var(--error-color); }
+
+
+.answer-section {
+    margin-top: 25px;
+}
+
+.feedback-message {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-top: 25px;
+    padding: 12px 0;
+    border-radius: 10px;
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.feedback-message.correct {
+    color: var(--success-color);
+    background-color: rgba(105, 240, 174, 0.2);
+    animation: popAndFade 0.6s ease-out;
+}
+
+.feedback-message.incorrect {
+    color: var(--error-color);
+    background-color: rgba(255, 82, 82, 0.2);
+    animation: shakeFeedback 0.6s ease-in-out;
+}
+
+@keyframes popAndFade {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes shakeFeedback {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+    20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+/* --- Transition Screen --- */
+#transition-screen {
+    background: linear-gradient(45deg, var(--accent-color-1), var(--player1-color));
+    border-radius: var(--border-radius);
+    padding: 50px 30px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    animation: scaleIn 0.5s ease-out forwards;
+    z-index: 10;
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.transition-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2.8em;
+    color: var(--text-color-light);
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    animation: textPop 0.8s ease-out forwards;
+}
+
+.transition-message {
+    font-size: 1.8em;
+    color: #f0f0f0;
+    font-weight: 600;
+    animation: textFadeIn 1s ease-out 0.3s forwards;
+}
+
+@keyframes textPop {
+    0% { transform: translateY(-30px) scale(0.7); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes textFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Award Screen */
+.award-screen {
+    padding: 40px;
+    background: linear-gradient(45deg, #ffd700, #ffecb3);
+    border: 5px solid #ffa000;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    animation: awardPop 0.8s ease-out forwards;
+}
+
+@keyframes awardPop {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.award-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2.5em;
+    color: #d4ac00;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+}
+
+.award-message {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #a0522d;
+    margin-bottom: 15px;
+}
+
+.award-message.two-player-result {
+    font-size: 1.4em;
+    margin-top: 20px;
+    font-weight: bold;
+    color: var(--neutral-text);
+}
+
+#finalPlayer1Score { color: var(--player1-color); }
+#finalPlayer2Score { color: var(--player2-color); }
+
+
+.award-instruction {
+    font-size: 1.2em;
+    color: #8b4513;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+/* Utility classes */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 10px; /* Reduce overall body padding on smaller screens */
+    }
+    .game-container {
+        padding: 20px;
+        margin: 10px auto; /* Adjust margin for smaller screens */
+    }
+    .game-title {
+        font-size: 1.8em;
+    }
+    .section-title {
+        font-size: 1.5em;
+    }
+    .radio-group label {
+        padding: 10px 18px;
+        font-size: 1em;
+        min-width: unset; /* Allow labels to shrink more */
+    }
+    .game-header {
+        flex-direction: column;
+        align-items: center;
+    }
+    .player-score-card {
+        width: 80%;
+        margin-bottom: 15px;
+    }
+    .operation-text {
+        font-size: 2.2em;
+    }
+    .countdown-text {
+        font-size: 1.5em;
+    }
+    input[type="text"],
+    input[type="number"] {
+        width: calc(100% - 30px);
+        padding: 10px 15px;
+    }
+    button {
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+    .transition-title {
+        font-size: 2em;
+    }
+    .transition-message {
+        font-size: 1.4em;
+    }
+    .award-title {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-container {
+        padding: 15px;
+        margin: 5px auto; /* Even smaller margin */
+    }
+    .game-title {
+        font-size: 1.5em;
+    }
+    .radio-group {
+        flex-direction: column;
+    }
+    .radio-group label {
+        width: 80%; /* Give more width so they don't look cramped */
+        text-align: center;
+    }
+    .player-score-card {
+        width: 95%;
+    }
+    .operation-text {
+        font-size: 1.8em;
+    }
+    .countdown-text {
+        font-size: 1.2em;
+    }
+}

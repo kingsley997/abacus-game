@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha BrainBox</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-logo-section">
+            <img src="WhatsApp Image 2025-03-08 at 5.34.09 AM.jpeg" alt="Alpha Abacus Logo" class="game-logo">
+        </div>
+        <h1 class="game-title">Alpha BrainBox</h1>
+
+        <div id="player-selection-screen" class="game-section active">
+            <h2 class="section-title">How many players?</h2>
+            <div class="setting-group">
+                <div class="radio-group">
+                    <input type="radio" id="playersOne" name="playerCount" value="1" checked>
+                    <label for="playersOne">One Player</label>
+                    <input type="radio" id="playersTwo" name="playerCount" value="2">
+                    <label for="playersTwo">Two Players</label>
+                </div>
+            </div>
+            <button id="nextToNameButton">Next</button>
+        </div>
+
+        <div id="name-screen" class="game-section hidden">
+            <h2 class="section-title">Enter Trainer Names!</h2>
+            <div id="player-inputs">
+                <div class="input-group">
+                    <label for="player1Name">Player 1 Name:</label>
+                    <input type="text" id="player1Name" placeholder="Alpha's Top Brain" required>
+                </div>
+                <div class="input-group hidden" id="player2-input-group">
+                    <label for="player2Name">Player 2 Name:</label>
+                    <input type="text" id="player2Name" placeholder="Alpha's Second Brain" required>
+                </div>
+            </div>
+            <button id="startButton">Start Training</button>
+        </div>
+
+        <div id="settings-screen" class="game-section hidden">
+            <h2 class="section-title">Choose Your Challenge</h2>
+
+            <div class="setting-group">
+                <h3>Abacus Mode</h3>
+                <div class="radio-group">
+                    <input type="radio" id="modeLowerBeads" name="abacusMode" value="lowerBeads" checked>
+                    <label for="modeLowerBeads">Lower Beads (0-4)</label>
+                    <input type="radio" id="modeFullUnitRod" name="abacusMode" value="fullUnitRod">
+                    <label for="modeFullUnitRod">+5 - 5 (Full Unit Rod)</label>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h3>Display Speed</h3>
+                <div class="radio-group">
+                    <input type="radio" id="speedSlow" name="speed" value="slow">
+                    <label for="speedSlow">Slow</label>
+                    <input type="radio" id="speedNormal" name="speed" value="normal" checked>
+                    <label for="speedNormal">Normal</label>
+                    <input type="radio" id="speedFast" name="speed" value="fast">
+                    <label for="speedFast">Fast</label>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h3>Training Mode</h3>
+                <div class="radio-group">
+                    <input type="radio" id="modePhysical" name="mode" value="physical" checked>
+                    <label for="modePhysical">Physical Abacus</label>
+                    <input type="radio" id="modeImagination" name="mode" value="imagination">
+                    <label for="modeImagination">Mental Abacus</label>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h3>Difficulty</h3>
+                <div class="radio-group">
+                    <input type="radio" id="diffEasy" name="difficulty" value="easy" checked>
+                    <label for="diffEasy">Easy (20 ops)</label>
+                    <input type="radio" id="diffModerate" name="difficulty" value="moderate">
+                    <label for="diffModerate">Moderate (40 ops)</label>
+                    <input type="radio" id="diffHard" name="difficulty" value="hard">
+                    <label for="diffHard">Hard (60 ops)</label>
+                </div>
+            </div>
+
+            <button id="startGameButton">Begin Challenge!</button>
+        </div>
+
+        <div id="game-play-screen" class="game-section hidden">
+            <div class="game-header">
+                <div class="player-score-card active-player-card" id="player1-score-card">
+                    <p class="player-info">P1: <span id="displayPlayer1Name" class="player-name-style"></span></p>
+                    <p class="score-info">Score: <span id="displayPlayer1Score" class="score-value">0</span></p>
+                </div>
+                <div class="player-score-card hidden" id="player2-score-card">
+                    <p class="player-info">P2: <span id="displayPlayer2Name" class="player-name-style"></span></p>
+                    <p class="score-info">Score: <span id="displayPlayer2Score" class="score-value">0</span></p>
+                </div>
+            </div>
+
+            <p class="round-info">Round <span id="currentRound">1</span></p>
+
+            <div class="display-area">
+                <p id="currentOperation" class="operation-text">Get ready!</p>
+                <p id="countdownDisplay" class="countdown-text"></p>
+                <div id="timerBarContainer" class="timer-bar-container">
+                    <div id="timerBar" class="timer-bar"></div>
+                </div>
+            </div>
+
+            <div class="answer-section">
+                <label for="studentAnswer">Your Answer:</label>
+                <input type="number" id="studentAnswer" placeholder="Enter your answer">
+                <button id="submitAnswer">Submit Answer</button>
+                <p id="feedbackMessage" class="feedback-message"></p>
+                <button id="nextRoundButton" class="hidden">Next Round</button>
+            </div>
+        </div>
+
+        <div id="transition-screen" class="game-section hidden">
+            <h2 class="transition-title"></h2>
+            <p class="transition-message"></p>
+        </div>
+
+        <div id="award-screen" class="game-section hidden">
+            <h2 class="award-title">🏆 Champion Trainer! 🏆</h2>
+            <p class="award-message">Congratulations, <span id="finalAwardPlayerName"></span>!</p>
+            <p class="award-message">You achieved a score of <span id="finalAwardScore">0</span>!</p>
+            <p class="award-message two-player-result hidden">Player 1: <span id="finalPlayer1Score">0</span> | Player 2: <span id="finalPlayer2Score">0</span></p>
+            <p class="award-instruction">You've mastered the lower beads!</p>
+            <button id="playAgainAwardButton">Play Again?</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
